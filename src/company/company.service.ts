@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../prisma.service';
-import { Company, Prisma } from '@prisma/client';
+import { Company } from '@prisma/client';
 import { MailerService } from '@nestjs-modules/mailer';
 import { CreateCompanyDto } from './dto/create-company.dto';
+import { UpdateCompanyDto } from './dto/update-company.dto';
 
 @Injectable()
 export class CompanyService {
@@ -38,7 +39,7 @@ export class CompanyService {
     return this.prisma.company.findUnique({ where: { id } });
   }
 
-  update(id: number, data: Prisma.CompanyUpdateInput): Promise<Company> {
+  update(id: number, data: UpdateCompanyDto): Promise<Company> {
     return this.prisma.company.update({ where: { id }, data });
   }
 

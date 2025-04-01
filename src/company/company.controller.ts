@@ -11,6 +11,7 @@ import {
 import { CompanyService } from './company.service';
 import { Company as CompanyModel } from '@prisma/client';
 import { CreateCompanyDto } from './dto/create-company.dto';
+import { UpdateCompanyDto } from './dto/update-company.dto';
 
 @Controller('companies')
 export class CompanyController {
@@ -32,10 +33,7 @@ export class CompanyController {
   }
 
   @Patch(':id')
-  update(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() dto: Partial<CreateCompanyDto>,
-  ) {
+  update(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateCompanyDto) {
     return this.companyService.update(id, dto);
   }
 
