@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../prisma.service';
 import { Company } from '@prisma/client';
@@ -32,15 +36,48 @@ export class CompanyService {
   }
 
   findAll(): Promise<Company[]> {
-    return this.prisma.company.findMany();
+    return this.prisma.company.findMany({
+      orderBy: {
+        id: 'asc',
+      },
+    });
   }
 
   findOne(id: number): Promise<Company | null> {
     return this.prisma.company.findUnique({ where: { id } });
   }
 
-  update(id: number, data: UpdateCompanyDto): Promise<Company> {
-    return this.prisma.company.update({ where: { id }, data });
+  async update(id: number, data: UpdateCompanyDto): Promise<Company> {
+    const original = await this.prisma.company.findUnique({ where: { id } });
+    if (!original) throw new NotFoundException('Empresa não encontrada');
+
+    if (data.cnpj) {
+      const findCnpj = await this.prisma.company.findUnique({
+        where: { cnpj: data.cnpj },
+      });
+      if (findCnpj?.id !== original.id) {
+        throw new ConflictException(
+          `Cnpj ja cadastrado! front:${id}   backend:${findCnpj?.id} `,
+        );
+      }
+    }
+    const updates: Partial<UpdateCompanyDto> = {};
+
+    for (const key in data) {
+      if (data[key] !== original[key]) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        updates[key] = data[key];
+      }
+    }
+
+    if (Object.keys(updates).length === 0) {
+      return original;
+    }
+
+    return this.prisma.company.update({
+      where: { id },
+      data: updates,
+    });
   }
 
   remove(id: number): Promise<Company> {
@@ -50,7 +87,7 @@ export class CompanyService {
   private async sendNotificationEmail(company: Company) {
     await this.mailer.sendMail({
       from: `"Empresa Cadastro" <${this.config.get('EMAIL_USER')}>`,
-      to: 'destinatarios@empresa.com.br', // Altere para o email real ou variável de ambiente
+      to: 'destinatarios@empresa.com.br',
       subject: 'Nova empresa cadastrada',
       text: `Empresa "${company.name}" cadastrada com sucesso!`,
     });
