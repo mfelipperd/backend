@@ -87,7 +87,7 @@ export class CompanyService {
   private async sendNotificationEmail(company: Company) {
     await this.mailer.sendMail({
       from: `"Empresa Cadastro" <${this.config.get('EMAIL_USER')}>`,
-      to: 'destinatarios@empresa.com.br',
+      to: 'felipperabelodurans@gmail.com',
       subject: 'Nova empresa cadastrada',
       text: `Empresa "${company.name}" cadastrada com sucesso!`,
     });
