@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../prisma.service';
 import { Company, Prisma } from '@prisma/client';
 import { MailerService } from '@nestjs-modules/mailer';
+import { CreateCompanyDto } from './dto/create-company.dto';
 
 @Injectable()
 export class CompanyService {
@@ -12,12 +13,21 @@ export class CompanyService {
     private mailer: MailerService,
   ) {}
 
-  async create(data: Prisma.CompanyCreateInput): Promise<Company> {
+  async create(
+    data: CreateCompanyDto,
+  ): Promise<{ company: Company; emailStatus: 'sent' | 'failed' }> {
     const company = await this.prisma.company.create({ data });
 
-    await this.sendNotificationEmail(company);
+    let emailStatus: 'sent' | 'failed' = 'sent';
 
-    return company;
+    try {
+      await this.sendNotificationEmail(company);
+    } catch (error) {
+      console.error('Erro ao enviar e-mail:', error);
+      emailStatus = 'failed';
+    }
+
+    return { company, emailStatus };
   }
 
   findAll(): Promise<Company[]> {

@@ -9,15 +9,16 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 import { CompanyService } from './company.service';
-import { Prisma, Company as CompanyModel } from '@prisma/client';
+import { Company as CompanyModel } from '@prisma/client';
+import { CreateCompanyDto } from './dto/create-company.dto';
 
 @Controller('companies')
 export class CompanyController {
   constructor(private companyService: CompanyService) {}
 
   @Post()
-  create(@Body() company: Prisma.CompanyCreateInput): Promise<CompanyModel> {
-    return this.companyService.create(company);
+  create(@Body() dto: CreateCompanyDto) {
+    return this.companyService.create(dto);
   }
 
   @Get()
@@ -33,9 +34,9 @@ export class CompanyController {
   @Patch(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() company: Prisma.CompanyUpdateInput,
-  ): Promise<CompanyModel> {
-    return this.companyService.update(id, company);
+    @Body() dto: Partial<CreateCompanyDto>,
+  ) {
+    return this.companyService.update(id, dto);
   }
 
   @Delete(':id')
