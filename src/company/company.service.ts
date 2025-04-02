@@ -85,9 +85,20 @@ export class CompanyService {
   }
 
   private async sendNotificationEmail(company: Company) {
+    const recipients = await this.prisma.emailRecipient.findMany({
+      where: { active: true },
+    });
+
+    if (!recipients.length) {
+      console.warn('Nehuma destinatário encontrado!');
+      return;
+    }
+
+    const emails = recipients.map(({ email }) => email);
+
     await this.mailer.sendMail({
       from: `"Empresa Cadastro" <${this.config.get('EMAIL_USER')}>`,
-      to: 'felipperabelodurans@gmail.com',
+      to: emails,
       subject: 'Nova empresa cadastrada',
       text: `Empresa "${company.name}" cadastrada com sucesso!`,
     });
