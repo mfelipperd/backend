@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateEmailDto } from './dto/create-email.dto';
 import { UpdateEmailDto } from './dto/update-email.dto';
-import { PrismaService } from 'src/prisma.service';
+import { PrismaService } from '../prisma.service';
 import { MailerService } from '@nestjs-modules/mailer';
 
 @Injectable()

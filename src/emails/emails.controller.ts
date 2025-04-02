@@ -1,34 +1,39 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { EmailsService } from './emails.service';
-import { CreateEmailDto } from './dto/create-email.dto';
-import { UpdateEmailDto } from './dto/update-email.dto';
+import {
+  Controller,
+  Post,
+  Get,
+  Patch,
+  Delete,
+  Param,
+  Body,
+  ParseIntPipe,
+} from '@nestjs/common';
+import { CreateEmailDto } from 'src/emails/dto/create-email.dto';
+import { UpdateEmailDto } from 'src/emails/dto/update-email.dto';
+import { EmailsService } from 'src/emails/emails.service';
+import { EmailRecipient } from '@prisma/client';
 
 @Controller('emails')
-export class EmailsController {
-  constructor(private readonly emailsService: EmailsService) {}
+export class EmailController {
+  constructor(private readonly emailService: EmailsService) {}
 
   @Post()
-  create(@Body() createEmailDto: CreateEmailDto) {
-    return this.emailsService.create(createEmailDto);
+  create(@Body() dto: CreateEmailDto): Promise<EmailRecipient> {
+    return this.emailService.create(dto);
   }
 
   @Get()
   findAll() {
-    return this.emailsService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.emailsService.findOne(+id);
+    return this.emailService.findAll();
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateEmailDto: UpdateEmailDto) {
-    return this.emailsService.update(+id, updateEmailDto);
+  update(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateEmailDto) {
+    return this.emailService.update(id, dto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.emailsService.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.emailService.remove(id);
   }
 }
