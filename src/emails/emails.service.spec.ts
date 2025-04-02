@@ -3,6 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { EmailsService } from './emails.service';
 import { PrismaService } from '../prisma.service';
 import { CreateEmailDto } from './dto/create-email.dto';
+import { MailerService } from '@nestjs-modules/mailer';
 
 describe('EmailService', () => {
   let service: EmailsService;
@@ -22,6 +23,12 @@ describe('EmailService', () => {
               update: jest.fn(),
               delete: jest.fn(),
             },
+          },
+        },
+        {
+          provide: MailerService,
+          useValue: {
+            sendMail: jest.fn(),
           },
         },
       ],
