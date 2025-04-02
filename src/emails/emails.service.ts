@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { CreateEmailDto } from './dto/create-email.dto';
 import { UpdateEmailDto } from './dto/update-email.dto';
 import { PrismaService } from '../prisma.service';
@@ -12,15 +12,41 @@ export class EmailsService {
   ) {}
 
   async create(data: CreateEmailDto) {
-    const emailRecord = await this.prisma.emailRecipient.create({ data });
+    const normalizedEmail = data.email.trim().toLowerCase();
 
-    try {
-      await this.sendConfirmationEmail(emailRecord.email);
-    } catch (error) {
-      console.error('Erro ao enviar e-mail de confirmação de cadastro:', error);
+    const existing = await this.prisma.emailRecipient.findUnique({
+      where: { email: normalizedEmail },
+    });
+
+    if (existing) {
+      throw new ConflictException('Este e-mail já está cadastrado.');
     }
 
-    return emailRecord;
+    try {
+      const emailRecord = await this.prisma.emailRecipient.create({
+        data: {
+          ...data,
+          email: normalizedEmail,
+        },
+      });
+
+      try {
+        await this.sendConfirmationEmail(emailRecord.email);
+      } catch (error) {
+        console.error(
+          'Erro ao enviar e-mail de confirmação de cadastro:',
+          error,
+        );
+      }
+
+      return emailRecord;
+    } catch (error) {
+      if ((error as { code?: string }).code === 'P2002') {
+        throw new ConflictException('Este e-mail já existe no sistema.');
+      }
+
+      throw error;
+    }
   }
 
   private async sendConfirmationEmail(email: string) {
