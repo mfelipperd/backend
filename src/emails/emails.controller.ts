@@ -8,9 +8,9 @@ import {
   Body,
   ParseIntPipe,
 } from '@nestjs/common';
-import { CreateEmailDto } from 'src/emails/dto/create-email.dto';
-import { UpdateEmailDto } from 'src/emails/dto/update-email.dto';
-import { EmailsService } from 'src/emails/emails.service';
+import { CreateEmailDto } from './dto/create-email.dto';
+import { UpdateEmailDto } from './dto/update-email.dto';
+import { EmailsService } from './emails.service';
 import { EmailRecipient } from '@prisma/client';
 
 @Controller('emails')
