@@ -4,6 +4,7 @@ import { PrismaService } from './prisma.service';
 import { CompanyModule } from './company/company.module';
 import { PrimasModule } from './prisma.module';
 import { MailerModule } from '@nestjs-modules/mailer';
+import { EmailsModule } from './emails/emails.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
     }),
     CompanyModule,
     PrimasModule,
+    EmailsModule,
   ],
   providers: [PrismaService],
 })
