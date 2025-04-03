@@ -14,9 +14,11 @@ describe('AppController', () => {
     appController = app.get<AppController>(AppController);
   });
 
-  describe('root', () => {
-    it('should return "Hello World!"', () => {
-      expect(appController.getHello()).toBe('Hello World!');
-    });
+  it('should be defined', () => {
+    expect(appController).toBeDefined();
+  });
+
+  it('should return "Bem vindo a API de empresas!"', () => {
+    expect(appController.getHello()).toBe('Bem vindo a API de empresas!');
   });
 });

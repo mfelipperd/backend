@@ -64,4 +64,91 @@ describe('EmailService', () => {
       expect(result).toEqual(mockEmail);
     });
   });
+
+  describe('findAll()', () => {
+    it('deve retornar uma lista de e-mails', async () => {
+      const mockEmails = [
+        {
+          id: 1,
+          email: 'teste1@email.com',
+          active: true,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          id: 2,
+          email: 'teste2@email.com',
+          active: false,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+      ];
+
+      (prisma.emailRecipient.findMany as jest.Mock).mockResolvedValue(
+        mockEmails,
+      );
+
+      const result = await service.findAll();
+
+      expect(prisma.emailRecipient.findMany).toHaveBeenCalledWith({
+        orderBy: { id: 'asc' },
+      });
+      expect(result).toEqual(mockEmails);
+    });
+  });
+  describe('update()', () => {
+    it('deve atualizar os dados de um e-mail', async () => {
+      const id = 1;
+      const updateData = {
+        email: 'novo@email.com',
+        active: true,
+      };
+
+      const updatedEmail = {
+        id,
+        ...updateData,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+
+      (prisma.emailRecipient.update as jest.Mock).mockResolvedValue(
+        updatedEmail,
+      );
+
+      const result = await service.update(id, updateData);
+
+      expect(prisma.emailRecipient.update).toHaveBeenCalledWith({
+        where: { id },
+        data: updateData,
+      });
+
+      expect(result).toEqual(updatedEmail);
+    });
+  });
+
+  describe('remove()', () => {
+    it('deve remover um e-mail com sucesso', async () => {
+      const id = 1;
+
+      const deletedEmail = {
+        id,
+        email: 'remover@email.com',
+        active: true,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+
+      (prisma.emailRecipient.delete as jest.Mock).mockResolvedValue(
+        deletedEmail,
+      );
+
+      const result = await service.remove(id);
+
+      expect(prisma.emailRecipient.delete).toHaveBeenCalledWith({
+        where: { id },
+      });
+
+      expect(result).toEqual(deletedEmail);
+    });
+  });
 });
