@@ -9,6 +9,7 @@ import { Company } from '@prisma/client';
 import { MailerService } from '@nestjs-modules/mailer';
 import { CreateCompanyDto } from './dto/create-company.dto';
 import { UpdateCompanyDto } from './dto/update-company.dto';
+import { EmailTemplateService } from '../emails/templates/email-template.service';
 
 @Injectable()
 export class CompanyService {
@@ -16,6 +17,7 @@ export class CompanyService {
     private prisma: PrismaService,
     private config: ConfigService,
     private mailer: MailerService,
+    private emailTemplate: EmailTemplateService,
   ) {}
 
   async create(
@@ -90,17 +92,19 @@ export class CompanyService {
     });
 
     if (!recipients.length) {
-      console.warn('Nehuma destinatário encontrado!');
+      console.warn('Nenhum destinatário encontrado!');
       return;
     }
 
     const emails = recipients.map(({ email }) => email);
+    const htmlTemplate = this.emailTemplate.generateCompanyNotificationTemplate(company);
 
     await this.mailer.sendMail({
-      from: `"Empresa Cadastro" <${this.config.get('EMAIL_USER')}>`,
+      from: `"Company API" <${this.config.get('EMAIL_USER')}>`,
       to: emails,
-      subject: 'Nova empresa cadastrada',
-      text: `Empresa "${company.name}" cadastrada com sucesso!`,
+      subject: `🏢 Nova empresa cadastrada: ${company.name}`,
+      text: `Empresa "${company.name}" (CNPJ: ${company.cnpj}) foi cadastrada com sucesso no sistema!`,
+      html: htmlTemplate,
     });
   }
 }
