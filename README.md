@@ -98,11 +98,24 @@ Crie um arquivo `.env` na raiz do projeto:
 DATABASE_URL="postgresql://user:password@localhost:5432/companydb"
 
 # E-mail (opcional - configure se quiser enviar e-mails)
-MAIL_HOST=smtp.gmail.com
-MAIL_PORT=587
-MAIL_USER=seu-email@gmail.com
-MAIL_PASS=sua-senha-de-app
+EMAIL_USER=seu-email@gmail.com
+EMAIL_PASS=sua-senha-de-app
 ```
+
+#### 📧 **Configuração do Gmail (Opcional)**
+Para enviar e-mails, você precisa configurar uma senha de app do Gmail:
+
+1. **Ative a verificação em 2 etapas** na sua conta Google
+2. **Gere uma senha de app**:
+   - Acesse: https://myaccount.google.com/apppasswords
+   - Selecione "E-mail" e "Outro (nome personalizado)"
+   - Digite "Company API" e clique em "Gerar"
+   - **Copie a senha gerada** (16 caracteres)
+3. **Configure no `.env`**:
+   ```bash
+   EMAIL_USER=seu-email@gmail.com
+   EMAIL_PASS=senha-de-app-gerada
+   ```
 
 ### 4. Inicie o banco de dados
 ```bash
