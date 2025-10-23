@@ -1,98 +1,384 @@
+# Company Management API
+
 <p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
+  <img src="https://nestjs.com/img/logo-small.svg" width="120" alt="NestJS Logo" />
 </p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
+<p align="center">
+  <strong>API para gerenciamento de empresas e destinatários de e-mail</strong>
 </p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+<p align="center">
+  <a href="https://nestjs.com/" target="_blank">NestJS</a> • 
+  <a href="https://www.prisma.io/" target="_blank">Prisma</a> • 
+  <a href="https://www.postgresql.org/" target="_blank">PostgreSQL</a> • 
+  <a href="https://swagger.io/" target="_blank">Swagger</a>
+</p>
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+---
 
-## Project setup
+## 📋 Índice
 
+- [Sobre o Projeto](#sobre-o-projeto)
+- [Tecnologias Utilizadas](#tecnologias-utilizadas)
+- [Pré-requisitos](#pré-requisitos)
+- [Instalação e Configuração](#instalação-e-configuração)
+- [Executando o Projeto](#executando-o-projeto)
+- [Documentação da API](#documentação-da-api)
+- [Endpoints Disponíveis](#endpoints-disponíveis)
+- [Estrutura do Banco de Dados](#estrutura-do-banco-de-dados)
+- [Variáveis de Ambiente](#variáveis-de-ambiente)
+- [Scripts Disponíveis](#scripts-disponíveis)
+- [Testes](#testes)
+- [Deploy](#deploy)
+
+---
+
+## 🚀 Sobre o Projeto
+
+Esta é uma API REST desenvolvida com NestJS para gerenciamento de empresas e destinatários de e-mail. O sistema permite:
+
+- ✅ Cadastro e gerenciamento de empresas
+- ✅ Gestão de destinatários de e-mail
+- ✅ Envio automático de e-mails de confirmação
+- ✅ API totalmente documentada com Swagger
+- ✅ Validação de dados com class-validator
+- ✅ Banco de dados PostgreSQL com Prisma ORM
+
+---
+
+## 🛠 Tecnologias Utilizadas
+
+### Backend
+- **[NestJS](https://nestjs.com/)** - Framework Node.js para aplicações server-side
+- **[TypeScript](https://www.typescriptlang.org/)** - Linguagem de programação
+- **[Prisma](https://www.prisma.io/)** - ORM moderno para TypeScript e Node.js
+- **[PostgreSQL](https://www.postgresql.org/)** - Banco de dados relacional
+- **[Docker](https://www.docker.com/)** - Containerização do banco de dados
+
+### Documentação e Validação
+- **[Swagger/OpenAPI](https://swagger.io/)** - Documentação interativa da API
+- **[class-validator](https://github.com/typestack/class-validator)** - Validação de DTOs
+- **[class-transformer](https://github.com/typestack/class-transformer)** - Transformação de objetos
+
+### E-mail
+- **[Nodemailer](https://nodemailer.com/)** - Envio de e-mails
+- **[@nestjs-modules/mailer](https://github.com/nest-modules/mailer)** - Módulo de e-mail para NestJS
+
+---
+
+## 📋 Pré-requisitos
+
+Antes de começar, certifique-se de ter instalado:
+
+- **[Node.js](https://nodejs.org/)** (versão 18 ou superior)
+- **[npm](https://www.npmjs.com/)** ou **[yarn](https://yarnpkg.com/)**
+- **[Docker](https://www.docker.com/)** e **[Docker Compose](https://docs.docker.com/compose/)**
+- **[Git](https://git-scm.com/)**
+
+---
+
+## 🔧 Instalação e Configuração
+
+### 1. Clone o repositório
 ```bash
-$ npm install
+git clone <url-do-repositorio>
+cd backend
 ```
 
-## Compile and run the project
-
+### 2. Instale as dependências
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+npm install
 ```
 
-## Run tests
-
+### 3. Configure as variáveis de ambiente
+Crie um arquivo `.env` na raiz do projeto:
 ```bash
-# unit tests
-$ npm run test
+# Banco de dados
+DATABASE_URL="postgresql://user:password@localhost:5432/companydb"
 
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+# E-mail (opcional - configure se quiser enviar e-mails)
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USER=seu-email@gmail.com
+MAIL_PASS=sua-senha-de-app
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
+### 4. Inicie o banco de dados
 ```bash
-$ npm install -g mau
-$ mau deploy
+docker compose up -d
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+### 5. Execute as migrações do Prisma
+```bash
+npx prisma migrate deploy
+```
 
-## Resources
+---
 
-Check out a few resources that may come in handy when working with NestJS:
+## 🚀 Executando o Projeto
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+### Desenvolvimento
+```bash
+npm run start:dev
+```
 
-## Support
+### Produção
+```bash
+npm run build
+npm run start:prod
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### Debug
+```bash
+npm run start:debug
+```
 
-## Stay in touch
+O servidor estará rodando em:
+- **API**: http://localhost:8080
+- **Swagger**: http://localhost:8080/api
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+---
 
-## License
+## 📚 Documentação da API
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+A documentação completa da API está disponível através do Swagger UI:
+
+**🔗 [Acesse a documentação interativa](http://localhost:8080/api)**
+
+A documentação inclui:
+- ✅ Descrição de todos os endpoints
+- ✅ Exemplos de requisições e respostas
+- ✅ Teste interativo dos endpoints
+- ✅ Esquemas dos DTOs
+- ✅ Códigos de status HTTP
+
+---
+
+## 🔌 Endpoints Disponíveis
+
+### Companies (`/companies`)
+
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| `POST` | `/companies` | Criar uma nova empresa |
+| `GET` | `/companies` | Listar todas as empresas |
+| `GET` | `/companies/:id` | Buscar empresa por ID |
+| `PATCH` | `/companies/:id` | Atualizar empresa |
+| `DELETE` | `/companies/:id` | Deletar empresa |
+
+### Emails (`/emails`)
+
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| `POST` | `/emails` | Adicionar destinatário de e-mail |
+| `GET` | `/emails` | Listar todos os destinatários |
+| `PATCH` | `/emails/:id` | Atualizar destinatário |
+| `DELETE` | `/emails/:id` | Deletar destinatário |
+
+### Exemplos de Uso
+
+#### Criar uma empresa
+```bash
+curl -X POST http://localhost:8080/companies \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Empresa Exemplo Ltda",
+    "cnpj": "12345678000195",
+    "tradeName": "Empresa Exemplo",
+    "address": "Rua das Flores, 123 - Centro - São Paulo/SP",
+    "favorite": true
+  }'
+```
+
+#### Listar empresas
+```bash
+curl http://localhost:8080/companies
+```
+
+#### Adicionar destinatário de e-mail
+```bash
+curl -X POST http://localhost:8080/emails \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "usuario@exemplo.com",
+    "active": true
+  }'
+```
+
+---
+
+## 🗄 Estrutura do Banco de Dados
+
+### Tabela: Company
+```sql
+CREATE TABLE "Company" (
+  "id" SERIAL PRIMARY KEY,
+  "name" VARCHAR NOT NULL,
+  "cnpj" VARCHAR UNIQUE NOT NULL,
+  "tradeName" VARCHAR NOT NULL,
+  "address" VARCHAR NOT NULL,
+  "favorite" BOOLEAN DEFAULT false,
+  "createdAt" TIMESTAMP DEFAULT NOW(),
+  "updatedAt" TIMESTAMP DEFAULT NOW()
+);
+```
+
+### Tabela: EmailRecipient
+```sql
+CREATE TABLE "EmailRecipient" (
+  "id" SERIAL PRIMARY KEY,
+  "email" VARCHAR UNIQUE NOT NULL,
+  "active" BOOLEAN DEFAULT true,
+  "createdAt" TIMESTAMP DEFAULT NOW(),
+  "updatedAt" TIMESTAMP DEFAULT NOW()
+);
+```
+
+---
+
+## 🔐 Variáveis de Ambiente
+
+| Variável | Descrição | Obrigatória | Padrão |
+|----------|-----------|-------------|---------|
+| `DATABASE_URL` | URL de conexão com PostgreSQL | ✅ | - |
+| `PORT` | Porta do servidor | ❌ | 3000 |
+| `MAIL_HOST` | Servidor SMTP | ❌ | - |
+| `MAIL_PORT` | Porta do servidor SMTP | ❌ | - |
+| `MAIL_USER` | Usuário do e-mail | ❌ | - |
+| `MAIL_PASS` | Senha do e-mail | ❌ | - |
+
+---
+
+## 📜 Scripts Disponíveis
+
+```bash
+# Desenvolvimento
+npm run start:dev          # Inicia em modo watch
+npm run start:debug        # Inicia em modo debug
+
+# Produção
+npm run build             # Compila o projeto
+npm run start:prod        # Inicia em modo produção
+
+# Testes
+npm run test              # Executa testes unitários
+npm run test:watch        # Executa testes em modo watch
+npm run test:cov          # Executa testes com coverage
+npm run test:e2e          # Executa testes end-to-end
+
+# Qualidade de código
+npm run lint              # Executa o linter
+npm run format            # Formata o código
+
+# Banco de dados
+npx prisma migrate dev    # Cria nova migração
+npx prisma migrate deploy # Aplica migrações
+npx prisma generate       # Gera o cliente Prisma
+npx prisma studio         # Abre o Prisma Studio
+```
+
+---
+
+## 🧪 Testes
+
+### Executar todos os testes
+```bash
+npm run test
+```
+
+### Executar testes com coverage
+```bash
+npm run test:cov
+```
+
+### Executar testes end-to-end
+```bash
+npm run test:e2e
+```
+
+### Executar testes em modo watch
+```bash
+npm run test:watch
+```
+
+---
+
+## 🚀 Deploy
+
+### Docker
+```bash
+# Build da imagem
+docker build -t company-api .
+
+# Executar container
+docker run -p 8080:8080 company-api
+```
+
+### Variáveis de ambiente para produção
+```bash
+DATABASE_URL="postgresql://user:password@host:5432/companydb"
+PORT=8080
+NODE_ENV=production
+```
+
+---
+
+## 📁 Estrutura do Projeto
+
+```
+backend/
+├── src/
+│   ├── company/           # Módulo de empresas
+│   │   ├── dto/          # Data Transfer Objects
+│   │   ├── *.controller.ts
+│   │   ├── *.service.ts
+│   │   └── *.module.ts
+│   ├── emails/           # Módulo de e-mails
+│   │   ├── dto/
+│   │   ├── entities/
+│   │   ├── *.controller.ts
+│   │   ├── *.service.ts
+│   │   └── *.module.ts
+│   ├── prisma/           # Configuração do Prisma
+│   ├── app.module.ts
+│   └── main.ts
+├── prisma/
+│   ├── migrations/       # Migrações do banco
+│   └── schema.prisma     # Schema do banco
+├── test/                 # Testes e2e
+├── docker-compose.yml    # Configuração do Docker
+└── package.json
+```
+
+---
+
+## 🤝 Contribuição
+
+1. Faça um fork do projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
+3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
+4. Push para a branch (`git push origin feature/AmazingFeature`)
+5. Abra um Pull Request
+
+---
+
+## 📄 Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+
+---
+
+## 📞 Suporte
+
+Para dúvidas ou suporte, entre em contato:
+
+- 📧 E-mail: suporte@exemplo.com
+- 💬 Discord: [Servidor da Comunidade](https://discord.gg/nestjs)
+- 📖 Documentação: [NestJS Docs](https://docs.nestjs.com/)
+
+---
+
+<p align="center">
+  Feito com ❤️ usando <a href="https://nestjs.com/">NestJS</a>
+</p>
