@@ -54,4 +54,21 @@ export class EmailController {
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.emailService.remove(id);
   }
+
+  @Post('test')
+  @ApiOperation({ summary: 'Testar envio de e-mail' })
+  @ApiResponse({ status: 200, description: 'E-mail de teste enviado com sucesso' })
+  @ApiResponse({ status: 500, description: 'Erro ao enviar e-mail' })
+  testEmail() {
+    return this.emailService.testEmail();
+  }
+
+  @Post('test/:email')
+  @ApiOperation({ summary: 'Testar envio de e-mail para e-mail específico' })
+  @ApiParam({ name: 'email', description: 'E-mail para envio do teste', type: 'string' })
+  @ApiResponse({ status: 200, description: 'E-mail de teste enviado com sucesso' })
+  @ApiResponse({ status: 500, description: 'Erro ao enviar e-mail' })
+  testEmailToSpecific(@Param('email') email: string) {
+    return this.emailService.testEmailToSpecific(email);
+  }
 }
